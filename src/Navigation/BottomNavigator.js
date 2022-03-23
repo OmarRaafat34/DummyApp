@@ -1,60 +1,46 @@
 import 'react-native-gesture-handler';
 import React from 'react'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import ProductsScreen from '../Screens/ProductsScreen';
 import SettingsScreen from '../Screens/SettingsSceen';
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons'
-import {View, StyleSheet, } from 'react-native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ProductsNavigator from './ProductsNavigator';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const BottomNavigator = () => {
-    const Tab = createMaterialBottomTabNavigator()
+    const Tab = createBottomTabNavigator()
+
     return (
         <Tab.Navigator
             tabBarPosition='bottom'
-            initialRouteName={ProductsScreen}
-            tabBarOptions={{
-                tabBarVisible: true,
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#036ef2'
+                },
+                headerTintColor: 'white',
             }}
         >
-            <Tab.Screen 
-                name='Home' 
-                component={ProductsScreen} 
+            <Tab.Screen
+                name="Shop Products"
+                component={ProductsNavigator}
                 options={{
-                    tabBarLabel: ({ color }) => {
-                        return (
-                        <View style={styles.Icon}>
-                            <Icon name={'home'} solid color={color} size={26} />
-                        </View>
-                        )
-                    
-                    }
+                    tabBarLabel: 'Home',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="home" color={color} size={size} />
+                    ),
                 }}
             />
             <Tab.Screen 
                 name='Settings' 
                 component={SettingsScreen} 
                 options={{
-                    tabBarLabel: ({ color }) => {
-                        return(
-                            <View style={styles.Icon}>
-                                <Icon name={'settings'} solid color={color} size={26} />
-                            </View>
-                        )
-                    }
-                    
+                    tabBarLabel: 'Settings',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialIcons name={'settings'} color={color} size={size} />
+                    )
                 }}
             />
         </Tab.Navigator>
     )
 }
 
-const styles = StyleSheet.create({
-    Icon: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignContent: 'center',
-    }
-})
 export default BottomNavigator

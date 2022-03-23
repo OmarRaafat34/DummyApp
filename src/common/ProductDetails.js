@@ -7,7 +7,7 @@ const ProductDetails = (props) => {
             <Image style={styles.Image} source={{uri: props.image}} />
             <View style={styles.DescriptionContainer}>
                 <Text style={styles.name}>{props.name}</Text>
-                <Text style={styles.price}>${props.price.toFixed(2)}</Text>
+                <Text style={styles.price}>${parseFloat(props?.price)}</Text>
                 <Text style={styles.description}>{props.description}</Text>  
             </View>
             <View style={styles.actions}>

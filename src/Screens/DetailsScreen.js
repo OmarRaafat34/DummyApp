@@ -2,16 +2,18 @@ import React from 'react'
 import {View, StyleSheet, Button, SafeAreaView, ScrollView} from 'react-native'
 import ProductDetails from '../common/ProductDetails'
 
-const MobileDetailsScreen = (props) => {
+const DetailsScreen = (props) => {
+    const { image, name, price, description } = props?.route?.params
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
                 <View>
                     <ProductDetails 
-                        image={'https://www.android.com/static/2016/img/one/carousel/nokia-9_1x.png'}
-                        name={'Mobile Phone'}
-                        price={300}
-                        description={'Hwauei Mobile Phone 6GB RAM'}
+                        image={image}
+                        name={name}
+                        price={price}
+                        description={description}
                     >
                         <Button 
                             style={styles.button} 
@@ -26,11 +28,17 @@ const MobileDetailsScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+      },
     button: {
         backgroundColor: '#036ef2',
         color: '#fff',
-        textTransform: 'capitalize'
+        textTransform: 'capitalize',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '20%'
     }
 })
-export default MobileDetailsScreen
+export default DetailsScreen
 

@@ -4,7 +4,6 @@ import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native'
 const ProductItem = (props) => {
     return (
         <View style={styles.product}>
-            <TouchableOpacity useForeground>
             <View style={styles.ImageContainer}>
                 <Image style={styles.Image} source={{uri: props.image}} />
             </View>
@@ -15,7 +14,6 @@ const ProductItem = (props) => {
             <View style={styles.actions}>
                 {props.children}
             </View>
-            </TouchableOpacity>
         </View>
     )
 }
@@ -30,8 +28,7 @@ const styles= StyleSheet.create({
         margin: 20,
         shadowOpacity: 0.26,
         shadowOffset: {width: 0, height: 2},
-        overflow: 'hidden'
-
+        overflow: 'hidden' 
     },
     ImageContainer: {
         width: '100%',
@@ -41,7 +38,8 @@ const styles= StyleSheet.create({
     Image: {
         width: '100%',
         height: '100%',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        resizeMode: 'cover'
     },  
     DescriptionContainer: {
         width: '100%',

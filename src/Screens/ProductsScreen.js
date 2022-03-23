@@ -1,54 +1,60 @@
-import React from 'react'
-import {View, StyleSheet, Button, SafeAreaView, ScrollView, TouchableOpacity, TouchableNativeFeedback} from 'react-native'
+import React, {useState} from 'react'
+import {View, StyleSheet, Button, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Pressable} from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import ProductItem from '../common/ProductItem'
+import SearchBar from '../common/SearchBar'
+import PRODUCTS from '../data/dummy-data'
 
 const ProductsScreen = (props) => {
+    const navigation = useNavigation()
+    const [originalProducts, setOriginalProducts] = useState(PRODUCTS)
+    const [filteredProducts, setFilteredProducts] = useState(PRODUCTS)
+    const [searchTerm, setSearchTerm] = useState('')
+
+    // console.log(searchTerm, "search term")
+   
+    const updateSearch = (searchTerm) => {
+        // console.log(searchTerm, 'searched')
+        if(searchTerm !== ''){
+            const filteredClone = JSON.parse(JSON.stringify(filteredProducts))
+            // console.log(filteredClone, "filtered clone")
+            const filteredArray = filteredClone.filter(item => item.name.includes(searchTerm))
+            setFilteredProducts(filteredArray)
+        } else {
+            setFilteredProducts(originalProducts)
+            setSearchTerm('')
+        }
+    }
+
+    const selectItemHandler = (id, image, name, price, description) => {
+        navigation.navigate(
+            'Details',
+            {id, image, name, price, description}
+        )
+    }
+
     return (
         <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View>
-            {/* <TouchableNativeFeedback onPress={() => props.navigation.navigate('Laptop')}> */}
-                <ProductItem   
-                    image={'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE3PHhv?ver=390c&q=90&m=8&h=431&w=767&b=%23FFFFFFFF&l=f&x=674&y=189&s=1446&d=813&aim=true'}
-                    name={'Laptop'}
-                    price={500}   
-                >
-                    
-                    <Button 
-                        style={styles.button} 
-                        title={'View Details'} 
-                        onPress={() => props.navigation.navigate('Laptop')} 
-                    />
-                </ProductItem>
-            {/* </TouchableNativeFeedback> */}
-            <ProductItem 
-                image={'https://www.android.com/static/2016/img/one/carousel/nokia-9_1x.png'}
-                name={'Mobile Phone'}
-                price={300}
-                onPress={() => props.navigation.navigate('Mobile')}  
-            >
-               <Button 
-                    style={styles.button} 
-                    title={'View Details'}
-                    onPress={() => props.navigation.navigate('Mobile')}
-                /> 
-            </ProductItem>
-
-            <ProductItem 
-                image={'https://consumer-img.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/tablets/matepad-t10.jpg'}
-                name={'Huawei Tablet'}
-                price={800}
-                onPress={() => props.navigation.navigate('Tablet')}
-
-            >
-                <Button 
-                    style={styles.button} 
-                    title={'View Details'}
-                    onPress={() => props.navigation.navigate('Tablet')}
-                />
-            </ProductItem>
-        </View>
-        </ScrollView>
+            <SearchBar searchTerm={searchTerm} updateSearch={updateSearch} setSearchTerm={setSearchTerm} />
+            <FlatList 
+                data={filteredProducts}
+                keyExtractor={item => item.id}
+                renderItem={itemData => {                    
+                    return(
+                        <ProductItem   
+                            image={itemData.item.image}
+                            name={itemData.item.name}
+                            price={itemData.item.price}   
+                        >     
+                            <Button 
+                                style={styles.button} 
+                                title={'View Details'} 
+                                onPress={() => selectItemHandler(itemData.item.id, itemData.item.image, itemData.item.name, itemData.item.price, itemData.item.description )} 
+                            />
+                        </ProductItem>
+                    )
+                }}
+            />
         </SafeAreaView>
     )
 }
@@ -62,7 +68,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         textTransform: 'capitalize',
         borderRadius: 10
-    }
+    },
 })
 export default ProductsScreen
 
