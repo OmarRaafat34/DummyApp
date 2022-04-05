@@ -26,6 +26,9 @@ const ProductsScreen = (props) => {
         }
     }
 
+
+
+    
     const selectItemHandler = (id, image, name, price, description) => {
         navigation.navigate(
             'Details',
